@@ -1,0 +1,213 @@
+// list reset
+%listreset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// clearfix
+%clearfix {
+ &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.clearfix {
+  @extend %clearfix;
+}
+
+
+// transition
+%transition {
+ transition: all 0.3s ease-in-out;
+}
+
+// justify nav
+%justify {
+ text-align: justify;
+ > * {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+ }
+ &:after {
+  content: '';
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+ }
+}
+
+
+
+/// * Helper class to truncate and add ellipsis to a string too long for it to fit
+/// * on a single line.
+/// * 1. Prevent content from wrapping, forcing it on a single line.
+/// * 2. Add ellipsis at the end of the line.
+
+.ellipsis {
+  white-space: nowrap; /* 1 */
+  text-overflow: ellipsis; /* 2 */
+  overflow: hidden;
+}
+
+
+.bg1{
+  background: #edeffa;
+
+}
+
+
+.bg2{
+  background: #fcf4f0;
+
+}
+
+.text-theme{
+  color:  #ED421F !important;
+}
+
+.bg3{
+  position: relative;
+
+  &:after{
+    position: absolute;
+    content: '';
+    width: 100%;
+    left: 0;
+    height: 100%;
+    background: url('/images/img12.svg') no-repeat;
+    top: 0;
+    display: block;
+    z-index: -1;
+    opacity: 0.4;
+  }
+
+  .box{
+    background: #fff;
+  }
+}
+
+
+
+
+
+.blob-btn {
+  $cyan: #fb9c2a;
+  $dark: #FFFFFF;
+  $borderW: 2px;
+
+
+  $numOfBlobs: 5;
+  z-index: 1;
+  position: relative;
+  padding: 20px 46px;
+  text-align: center;
+  text-transform: uppercase;
+  color: $cyan;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  transition: color 0.5s;
+  cursor: pointer;
+
+
+  &:hover {
+    color: $dark;
+  }
+
+  &__inner {
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  // additional container created, because in FF blobs are breaking overflow:hidden of element with svg gooey filter
+  &__blobs {
+    position: relative;
+    display: block;
+    height: 100%;
+    filter: url('#goo');
+  }
+
+  &__blob {
+    position: absolute;
+    top: $borderW;
+    width: 150% / $numOfBlobs;
+    height: 120%;
+    background: $cyan;
+    border-radius: 100% 100% 0 0;
+    transform: translate3d(0,150%,0) scale(1.7);
+    transition: transform 0.45s;
+
+
+    @supports(filter: url('#goo')) {
+      transform: translate3d(0,150%,0) scale(1);
+    }
+
+    @for $i from 1 through $numOfBlobs {
+      &:nth-child(#{$i}) {
+        left: ($i - 1) * (120% / $numOfBlobs);
+        transition-delay: ($i - 1) * 0.08s;
+      }
+      &:nth-child(2){
+        top: 35px !important;
+      }
+      &:nth-child(3){
+        top: 10px !important;
+      }
+      &:nth-child(4){
+        top: 60px !important;
+      }
+
+    }
+
+    transform: translate3d(0,150%,0) scale(1.7);
+
+    @supports(filter: url('#goo')) {
+      transform: translate3d(0,150%,0) scale(1);
+    }
+
+
+
+    body.navActive & {
+      transform: translateZ(0) scale(1.7);
+
+      @supports(filter: url('#goo')) {
+        transform: translateZ(0) scale(1);
+      }
+    }
+  }
+
+}
+
+
+.blobAnim{
+  display: block;
+
+  .blob-btn{
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+  }
+}
+
+
+.text-right{
+  text-align: right !important;
+
+  @include media ("<tablet-x"){
+    text-align: left !important;
+  }
+}

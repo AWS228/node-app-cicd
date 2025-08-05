@@ -1,0 +1,599 @@
+$breakpoints: (
+				'xs-phone': 580px,
+				'phone': 640px,
+				'tablet': 768px,
+				'tablet-x': 992px,
+				'desktop': 1024px,
+				'widescreen': 1200px,
+				'widescreen-large': 1400px,
+);
+
+
+@import 'vendors/include-media';
+@import 'vendors/normalize';
+@import 'vendors/bootstrap';
+
+
+@import 'base/variables';
+@import 'base/functions';
+@import 'base/mixins';
+@import 'base/helpers';
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/forms';
+@import 'vendors/sociallinks';
+
+
+body{
+	font-size: 15px;
+	line-height: 24px;
+	font-family: "Poppins", sans-serif;
+}
+
+.container{
+	max-width: 1170px;
+}
+
+.img-box{
+	overflow: hidden;
+	position: relative;
+
+	img{
+		@include img-reset;
+
+		@include media ("<tablet"){
+			width: 80%;
+			margin: 0 auto;
+		}
+
+		&.ful-width{
+			width: 100%;
+		}
+	}
+}
+
+img{
+	&.ful-width{
+		width: 100%;
+	}
+}
+
+#wrapper{
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	@include ease;
+}
+
+#header{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 99;
+	@include ease;
+	padding: 20px 0;
+
+	@include media ("<tablet"){
+		padding: 0;
+	}
+
+	.container{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		padding: 15px;
+	}
+
+	.rightCol{
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+	}
+}
+
+.logo{
+	float: left;
+	@include ease;
+	max-width: 200px;
+	position: relative;
+	z-index: 1;
+
+	a{
+		display: block;
+		height: 100%;
+		color: #f08e80;
+	}
+	img{
+		@include img-reset;
+	}
+}
+
+.contactList{
+	@extend %listreset;
+	overflow: hidden;
+	color: #fff;
+
+
+	li{
+		display: block;
+		margin: 0 0 15px;
+	}
+
+	a{
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+.banner{
+	position: relative;
+
+
+	.bannerHolder{
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center 100%;
+		padding: 120px 0 160px;
+
+		@include media ("<tablet-x"){
+			padding: 120px 0 50px;
+		}
+
+		@include media ("<phone"){
+			background-position: 35% center;
+		}
+
+		&.right{
+			background-position: 100% center;
+		}
+
+		&.bgGradient{
+			position: relative;
+
+			&:after{
+				position: absolute;
+				content: '';
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: -1;
+				background: url('/images/bgGradient.png') repeat-y;
+			}
+		}
+
+
+		&.parallex{
+			background-attachment: fixed;
+		}
+
+
+		.container{
+			display: flex;
+			align-items: center;
+			min-height: 540px;
+
+			@include media ("<tablet-x"){
+				display: block;
+
+			}
+
+			@include media ("<tablet"){
+				min-height: auto;
+			}
+		}
+	}
+
+	.col{
+		flex: 1;
+	}
+
+	.bannerBottom{
+		position: relative;
+		margin: -110px 0 0;
+
+		@include media ("<desktop"){
+			margin: -20px 15px 0;
+		}
+
+		.container{
+			padding: 50px;
+			border-radius: 40px;
+			text-align: center;
+			background: #fff;
+			@include shadow2;
+
+			@include media ("<tablet"){
+				padding: 30px 15px;
+			}
+		}
+	}
+}
+
+#main{
+	position: relative;
+	overflow: hidden;
+}
+
+.section{
+	padding: 80px 0;
+
+	@include media ("<tablet"){
+		padding: 40px 0;
+	}
+}
+
+
+#footer{
+	background: url('/images/footerBg.svg') no-repeat;
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	padding: 120px 0 0;
+	z-index: 1;
+	font-size: 14px;
+
+	@include media ("<tablet"){
+
+		.row{
+			display: block;
+		}
+
+		.social-links{
+			margin: 0;
+		}
+	}
+
+
+	.logo{
+		float: none;
+		display: block;
+		margin: 0 auto 50px;
+
+		a{
+			color: #fff;
+			text-align: center;
+		}
+	}
+
+	h3{
+		color: #fff;
+		margin-bottom: 25px;
+		font-size: 20px;
+	}
+}
+
+.rowSameHeight{
+	@include media ("<tablet"){
+		.box{
+			height: auto !important;
+		}
+	}
+}
+
+.quick-links{
+	@extend %listreset;
+	overflow: hidden;
+
+
+	li{
+		display: block;
+		margin: 0 0 15px;
+	}
+
+	a{
+		color: #fff;
+		text-decoration: none;
+
+		&:hover{
+			color: #fb9c2a;
+		}
+	}
+}
+
+.copyRight{
+	margin-top: 30px;
+	padding: 20px 0;
+	color: #fff;
+	font-size: 12px;
+	text-align: center;
+
+	a{
+		color: #fff;
+
+		&:hover{
+			text-decoration: underline;
+			color: #fb9c2a;
+		}
+	}
+}
+
+
+.sectionHeader{
+	padding: 0 0 30px;
+}
+
+
+.colList{
+	position: relative;
+
+	&.text-center{
+		.iconBox{
+			margin: 0 auto 15px;
+		}
+	}
+
+	&.layerBox{
+		.box{
+			background: #fff url('/images/pattern-22.png') no-repeat;
+			background-size: 250px;
+			background-position: 100% 0;
+		}
+	}
+
+	.box{
+		padding: 25px;
+		@include shadow2;
+		border-radius: 20px;
+		font-size: 14px;
+		line-height: 22px;
+
+		@include media ("<tablet-x"){
+			height: auto !important;
+
+			&.hide-tab{
+				display: none;
+			}
+		}
+	}
+
+
+	&.waveList{
+		> div[class*="col-"]{
+			margin: 10px 0;
+
+			@include media ("<tablet-x"){
+				margin: 0 0 25px !important;
+			}
+
+			&:nth-child(odd){
+				margin-top: 70px;
+
+				@include media ("<tablet-x"){
+					margin: 0 0 25px !important;
+				}
+			}
+		}
+	}
+}
+
+.iconBox{
+	width: 70px;
+	height: 70px;
+	@include flex-align-center;
+	margin: 0 0 15px;
+
+	img{
+		max-width: 60px;
+		max-width: 60px;
+	}
+}
+
+
+.processList{
+	@extend %listreset;
+	position: relative;
+	overflow: hidden;
+	padding: 20px;
+
+	@include media ("<tablet-x"){
+		padding: 0 15px 0 50px;
+	}
+
+	&:before{
+		position: absolute;
+		content: '';
+		width: 2px;
+		//background: rgba(255,96,61,0.5);
+		background: rgba($color: #fb9c2a, $alpha: 0.5);
+		//background: rgba(229,234,253,0.5);
+		height: 9999px;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		display: block;
+
+		@include media ("<tablet-x"){
+			left: 15px;
+			transform: none;
+		}
+	}
+
+	li{
+		display: flex;
+		flex-wrap: wrap;
+		position: relative;
+
+		&:after{
+			clip-path: polygon(50% 0%, 100% 44%, 83% 100%, 17% 100%, 0% 44%);
+			position: absolute;
+			content: '';
+			width: 30px;
+			background: rgba($color: #fb9c2a, $alpha: 1);
+			height: 30px;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			display: block;
+			@include ease;
+
+			@include media ("<tablet-x"){
+				left: -49px;
+				transform: translateX(0) translateY(-50%);
+			}
+		}
+
+
+
+		&:nth-child(odd){
+			flex-direction: row-reverse;
+
+			.box{
+				&:after{
+					right: auto;
+					left: -25%;
+
+					@include media ("<tablet-x"){
+						right: auto;
+						left: -24px;
+					}
+				}
+			}
+		}
+	}
+
+	.box{
+		width: 40%;
+		padding: 20px;
+		background: #fff;
+		@include shadow2;
+		position: relative;
+		z-index: 1;
+
+		@include media ("<tablet-x"){
+			width: 100%;
+			margin: 10px 0;
+		}
+
+		&:after{
+			position: absolute;
+			content: '';
+			width: 25%;
+			background: rgba($color: #fb9c2a, $alpha: 0.5);
+			height: 2px;
+			top: 50%;
+			right: -25%;
+			transform: translateY(-50%);
+			display: block;
+			z-index: -1;
+
+			@include media ("<tablet-x"){
+				width: 24px;
+				right: auto;
+				left: -24px;
+			}
+		}
+
+	}
+
+	.iconBox{
+		width: 70px;
+		height: 70px;
+		@include flex-align-center;
+		margin: 0 0 19px;
+
+		img{
+			max-width: 60px;
+			max-width: 60px;
+		}
+	}
+}
+
+.animHolder{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	opacity: 0.5;
+}
+
+
+.snowflake {
+	--size: 20vw;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	position: absolute;
+	top: -5vh;
+
+	img{
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+}
+
+@keyframes snowfall {
+	0% {
+		transform: translate3d(var(--left-ini), 0, 0);
+	}
+	100% {
+		transform: translate3d(var(--left-end), 110vh, 0);
+	}
+}
+
+@for $i from 1 through 10 {
+	.snowflake:nth-child(#{$i}) {
+		--size: #{random(5) * 0.5}vw;
+		--left-ini: #{random(10) - 10}vw;
+		--left-end: #{random(10) - 10}vw;
+		left: #{random(100)}vw;
+		animation: snowfall #{5 + random(30)}s linear infinite;
+		animation-delay: -#{random(30)}s;
+	}
+}
+
+/* added small blur every 6 snowflakes*/
+.snowflake:nth-child(2n) {
+	filter: blur(1px);
+}
+
+
+
+.backToTop {
+	position: fixed;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background: #fb9c2a;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px;
+	bottom: 0;
+	right: 0;
+	font-size: 18px;
+	text-decoration: none;
+}
+
+
+.cto{
+	padding-left: 15px;
+	padding-right: 15px;
+
+	@include media ("<tablet-x"){
+	}
+
+	.container{
+		border-radius: 300px;
+		@include shadow2;
+		padding: 50px 100px;
+		text-align: center;
+		background: url('/images/ctoBg.svg') no-repeat;
+		background-size: cover;
+
+		@include media ("<tablet-x"){
+			padding: 30px 20px;
+			border-radius: 10px;
+		}
+	}
+}
+
+
+
+@include media ("<tablet"){}
