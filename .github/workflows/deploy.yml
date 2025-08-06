@@ -37,6 +37,6 @@ jobs:
 
           pm2 delete next-app || true
 
-          pm2 start serve --name next-app -- -s ~/deploy/next-app -l 80
+          pm2 start yarn --name next-app -- start
 
           pm2 save
