@@ -1,4 +1,4 @@
-name: 🚀 Deploy Node.js App to EC2 (Self-Hosted Runner)
+name: React Frontend CI/CD
 
 on:
   push:
@@ -6,41 +6,36 @@ on:
       - main
 
 jobs:
-  deploy:
-    name: CI/CD - Deploy to EC2 via Self-Hosted Runner
+  build:
     runs-on: self-hosted
 
     steps:
-      - name: 📥 Checkout Code
+      # Checkout the repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🔧 Setup Node.js
+      # Setup Node.js 18
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: 18
+          cache: 'yarn'  # cache node_modules
 
-      - name: 📦 Install Dependencies
-        run: npm install
+      # Install dependencies with Yarn
+      - name: Install dependencies
+        run: yarn install
 
-      # ❌ Removed optional build step — wasn't supported and causing error
+      # Build the React app
+      - name: Build the project
+        run: yarn build
 
-      - name: 🚀 Start or Restart App with PM2
-        run: |
-          # Ensure PM2 is installed globally
-          command -v pm2 >/dev/null 2>&1 || npm install -g pm2
+      # Upload the build as an artifact (optional)
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: build/
 
-          echo "Starting deployment process..."
-
-          # Start or restart the app
-          if pm2 list | grep -q 'app'; then
-            echo "♻️ Restarting existing PM2 app..."
-            pm2 restart app
-          else
-            echo "🆕 Starting new PM2 app..."
-            pm2 start app.js --name app
-          fi
-
-          # Save process list
-          pm2 save
-          echo "✅ App deployed and running with PM2!"
+      # 🟡 Deployment step goes here (optional)
+      # Example: Deploy to S3, EC2, or FTP
+      # I can add that for you if you tell me the destination
