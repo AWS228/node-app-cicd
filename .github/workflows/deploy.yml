@@ -1,4 +1,3 @@
-
 name: Next.js Frontend CI/CD
 
 on:
@@ -28,16 +27,14 @@ jobs:
       - name: 🛠️ Build Next.js App
         run: yarn build
 
-      - name: 🔧 Install PM2 and serve globally
-        run: npm install -g pm2 serve
+      - name: 🌐 Export Next.js App (Static HTML)
+        run: yarn export
 
-      - name: 🚀 Deploy Next.js App using PM2
+      - name: 🚀 Deploy Static App using PM2
         run: |
-          echo "Deploying Next.js app..."
+          echo "Deploying Next.js static app..."
 
           mkdir -p ~/deploy/next-app
-
-          # Static export (for SSG or hybrid)
 
           cp -r out/* ~/deploy/next-app/
 
