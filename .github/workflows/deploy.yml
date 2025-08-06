@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: CI/CD - Deploy to EC2
-    runs-on: ip-172-31-19-119  # Your EC2 GitHub runner
+    runs-on: self-hosted # Your EC2 GitHub runner
 
     steps:
       - name: 🧾 Checkout Code
