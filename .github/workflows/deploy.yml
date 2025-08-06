@@ -1,4 +1,4 @@
-name: Deploy Node.js App to EC2 (Self-Hosted Runner)
+name: 🚀 Deploy Node.js App to EC2 (Self-Hosted Runner)
 
 on:
   push:
@@ -7,37 +7,43 @@ on:
 
 jobs:
   deploy:
-    name: CI/CD - Deploy to EC2
-    runs-on: self-hosted # Your EC2 GitHub runner
+    name: CI/CD - Deploy to EC2 via Self-Hosted Runner
+    runs-on: self-hosted
 
     steps:
-      - name: 🧾 Checkout Code
-        uses: actions/checkout@v3
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
 
-      - name: 🟨 Set Up Node.js
-        uses: actions/setup-node@v3
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Change version if needed
+          node-version: '18'
+          cache: 'npm'
 
-      - name: 📦 Install NPM Dependencies
-        run: npm install
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: ⚙️ Build (Optional Step)
+        if: exists('package.json') && steps.check_build.outputs.exists == 'true'
+        run: npm run build
 
       - name: 🚀 Start or Restart App with PM2
         run: |
-          # Install pm2 if not present
-          if ! command -v pm2 &> /dev/null; then
-            echo "Installing pm2..."
-            npm install -g pm2
-          fi
+          # Ensure PM2 is installed globally
+          command -v pm2 >/dev/null 2>&1 || npm install -g pm2
 
-          echo "Running application..."
-          if pm2 describe app > /dev/null; then
-            echo "♻️ Restarting app..."
+          # Navigate to project root if needed
+          echo "Starting deployment process..."
+
+          # Start or restart the app
+          if pm2 list | grep -q 'app'; then
+            echo "♻️ Restarting existing PM2 app..."
             pm2 restart app
           else
-            echo "🆕 Starting new app instance..."
+            echo "🆕 Starting new PM2 app..."
             pm2 start app.js --name app
           fi
 
+          # Save process list
           pm2 save
-          echo "✅ Deployment complete!"
+          echo "✅ App deployed and running with PM2!"
