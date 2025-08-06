@@ -27,9 +27,6 @@ jobs:
       - name: 🛠️ Build Next.js App
         run: yarn build
 
-      - name: 🌐 Export Next.js App (Static HTML)
-        run: yarn export
-
       - name: 🚀 Deploy Static App using PM2
         run: |
           echo "Deploying Next.js static app..."
