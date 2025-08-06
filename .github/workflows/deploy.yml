@@ -38,7 +38,6 @@ jobs:
           mkdir -p ~/deploy/next-app
 
           # Static export (for SSG or hybrid)
-          yarn export
 
           cp -r out/* ~/deploy/next-app/
 
