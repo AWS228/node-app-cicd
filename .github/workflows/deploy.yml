@@ -23,16 +23,13 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm ci
 
-      - name: ⚙️ Build (Optional Step)
-        if: exists('package.json') && steps.check_build.outputs.exists == 'true'
-        run: npm run build
+      # ❌ Removed optional build step — wasn't supported and causing error
 
       - name: 🚀 Start or Restart App with PM2
         run: |
           # Ensure PM2 is installed globally
           command -v pm2 >/dev/null 2>&1 || npm install -g pm2
 
-          # Navigate to project root if needed
           echo "Starting deployment process..."
 
           # Start or restart the app
