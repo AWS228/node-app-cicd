@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: 📦 Install Dependencies
-        run: npm ci
+        run: npm install
 
       # ❌ Removed optional build step — wasn't supported and causing error
 
