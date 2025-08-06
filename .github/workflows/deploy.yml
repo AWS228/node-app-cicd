@@ -1,1 +1,49 @@
 
+name: Next.js Frontend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-frontend:
+    runs-on: self-hosted
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🔧 Install Yarn
+        run: npm install -g yarn
+
+      - name: 📦 Install dependencies with Yarn
+        run: yarn install
+
+      - name: 🛠️ Build Next.js App
+        run: yarn build
+
+      - name: 🔧 Install PM2 and serve globally
+        run: npm install -g pm2 serve
+
+      - name: 🚀 Deploy Next.js App using PM2
+        run: |
+          echo "Deploying Next.js app..."
+
+          mkdir -p ~/deploy/next-app
+
+          # Static export (for SSG or hybrid)
+          yarn export
+
+          cp -r out/* ~/deploy/next-app/
+
+          pm2 delete next-app || true
+
+          pm2 start serve --name next-app -- -s ~/deploy/next-app -l 3000
+
+          pm2 save
