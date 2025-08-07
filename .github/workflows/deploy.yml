@@ -1,42 +1,30 @@
-name: Next.js Frontend CI/CD
-
+name: Deploy Next.js App (Self-hosted)
+ 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
+ 
 jobs:
-  deploy-frontend:
+  deploy:
     runs-on: self-hosted
-
+ 
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: 🔧 Install Yarn
-        run: npm install -g yarn
-
-      - name: 📦 Install dependencies with Yarn
+      - name: Checkout Code
+        uses: actions/checkout@v3
+ 
+      - name: Install Dependencies
         run: yarn install
-
-      - name: 🛠️ Build Next.js App
+ 
+      - name: Build Next.js App
         run: yarn build
-
-      - name: 🚀 Deploy Static App using PM2
+ 
+      - name: Start or Restart PM2 Process
         run: |
-          echo "Deploying Next.js static app..."
-
-          mkdir -p ~/deploy/next-app
-
-          cp -r out/* ~/deploy/next-app/
-
-          pm2 delete next-app || true
-
-          pm2 start yarn --name next-app -- start
-
+          if pm2 list | grep -q "web-techbolt"; then
+            echo "Process exists. Restarting..."
+            pm2 restart web-techbolt --update-env
+          else
+            echo "Process not found. Starting new PM2 process..."
+            pm2 start node_modules/next/dist/bin/next --name web-techbolt -- start -p 3001
+          fi
           pm2 save
