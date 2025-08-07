@@ -25,11 +25,11 @@ jobs:
 
       - name: Start or Restart PM2 Process
         run: |
-          if pm2 list | grep -q "web-techbolt"; then
+          if pm2 list | grep -q "node-app-cicd"; then
             echo "Process exists. Restarting..."
             pm2 restart web-techbolt --update-env
           else
             echo "Process not found. Starting new PM2 process..."
-            pm2 start node_modules/next/dist/bin/next --name web-techbolt -- start -p 3001
+            pm2 start node_modules/next/dist/bin/next --name node-app-cicd -- start -p 3001
           fi
           pm2 save
