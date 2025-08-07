@@ -11,10 +11,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Ensure Required Tools Are Installed
+      - name: Install System Dependencies
         run: |
           sudo apt update
-          sudo apt install -y curl gnupg grep
+          sudo apt install -y grep curl gnupg ca-certificates
 
       - name: Install Node.js (LTS)
         run: |
@@ -33,7 +33,7 @@ jobs:
       - name: Build Next.js App
         run: yarn build
 
-      - name: Install PM2 with Yarn
+      - name: Install PM2
         run: yarn global add pm2
 
       - name: Add Yarn global bin to PATH
