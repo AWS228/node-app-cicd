@@ -1,23 +1,23 @@
-name: Deploy Next.js App (Self-hosted)
- 
-on:
-  push:
-    branches: [main]
- 
 jobs:
   deploy:
     runs-on: self-hosted
- 
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
- 
+
+      - name: Install Yarn
+        run: |
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+          sudo apt update && sudo apt install -y yarn
+
       - name: Install Dependencies
         run: yarn install
- 
+
       - name: Build Next.js App
         run: yarn build
- 
+
       - name: Start or Restart PM2 Process
         run: |
           if pm2 list | grep -q "web-techbolt"; then
