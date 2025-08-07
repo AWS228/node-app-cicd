@@ -1,8 +1,3 @@
-name: Deploy Next.js App (Self-hosted)
- 
-on:
-  push:
-    branches: [main]
 jobs:
   deploy:
     runs-on: self-hosted
@@ -23,11 +18,14 @@ jobs:
       - name: Build Next.js App
         run: yarn build
 
+      - name: Install PM2
+        run: sudo npm install -g pm2
+
       - name: Start or Restart PM2 Process
         run: |
           if pm2 list | grep -q "node-app-cicd"; then
             echo "Process exists. Restarting..."
-            pm2 restart web-techbolt --update-env
+            pm2 restart node-app-cicd --update-env
           else
             echo "Process not found. Starting new PM2 process..."
             pm2 start node_modules/next/dist/bin/next --name node-app-cicd -- start -p 3001
