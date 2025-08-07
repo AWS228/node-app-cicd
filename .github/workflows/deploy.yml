@@ -11,6 +11,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Ensure Required Tools Are Installed
+        run: |
+          sudo apt update
+          sudo apt install -y curl gnupg grep
+
+      - name: Install Node.js (LTS)
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+          sudo apt install -y nodejs
+
       - name: Install Yarn
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -23,7 +33,7 @@ jobs:
       - name: Build Next.js App
         run: yarn build
 
-      - name: Install PM2
+      - name: Install PM2 with Yarn
         run: yarn global add pm2
 
       - name: Add Yarn global bin to PATH
@@ -38,5 +48,5 @@ jobs:
             echo "Process not found. Starting new PM2 process..."
             pm2 start node_modules/next/dist/bin/next --name node-app-cicd -- start -p 3001
           fi
-          pm2 save        fi
           pm2 save
+
