@@ -9,6 +9,11 @@ jobs:
   deploy:
     runs-on: self-hosted
 
+    env:
+      ACTIONS_RUNNER_HOOK_JOB_STARTED: "true"
+      ACTIONS_RUNNER_HOOK_JOB_COMPLETED: "true"
+      ACTIONS_RUNNER_CLEANUP: "false"   # Important: Prevent cleanup
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -20,6 +25,7 @@ jobs:
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+           [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
           nvm install --lts
           node -v
           npm -v
