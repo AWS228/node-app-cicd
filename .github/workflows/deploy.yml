@@ -1,52 +1,26 @@
-name: Deploy Next.js App (Self-hosted)
- 
+name: CI/CD for React App with PM2 Serve
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main  # jab main branch par push hoga tab deploy chalega
+
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Install System Dependencies
+      - name: 📦 Install Dependencies
+        run: npm install
+
+      - name: 🏗 Build React App
+        run: npm run build
+
+      - name: 🚀 Start/Restart with PM2 Serve
         run: |
-          sudo apt update
-          sudo apt install -y grep curl gnupg ca-certificates
-
-      - name: Install Node.js (LTS)
-        run: |
-          curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-          sudo apt install -y nodejs
-
-      - name: Install Yarn
-        run: |
-          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-          sudo apt update && sudo apt install -y yarn
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - name: Build Next.js App
-        run: yarn build
-
-      - name: Install PM2
-        run: yarn global add pm2
-
-      - name: Add Yarn global bin to PATH
-        run: echo "PATH=$(yarn global bin):\$PATH" >> $GITHUB_ENV
-
-      - name: Start or Restart PM2 Process
-        run: |
-          if pm2 list | grep -q "node-app-cicd"; then
-            echo "Process exists. Restarting..."
-            pm2 restart node-app-cicd --update-env
-          else
-            echo "Process not found. Starting new PM2 process..."
-            pm2 start node_modules/next/dist/bin/next --name node-app-cicd -- start -p 3001
-          fi
+          pm2 delete my-app || true
+          pm2 serve out 3000 --name "my-app" --spa
           pm2 save
-
