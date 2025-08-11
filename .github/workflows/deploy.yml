@@ -50,6 +50,6 @@ jobs:
 
       - name: 🚀 Run with PM2
         run: |
-          pm2 stop all || true
+          pm2 stop myapp || true
           pm2 serve out 3000 --name myapp --spa
           pm2 save
