@@ -23,6 +23,9 @@ jobs:
           nvm install --lts
           node -v
           npm -v
+          
+          echo "NVM_DIR=$NVM_DIR" >> $GITHUB_ENV
+          echo "PATH=$NVM_DIR/versions/node/$(nvm version)/bin:$PATH" >> $GITHUB_ENV
 
       - name: 📦 Install Yarn, PM2 & Serve
         run: |
