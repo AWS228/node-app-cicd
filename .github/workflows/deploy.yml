@@ -1,9 +1,9 @@
-name: CI/CD for React App with PM2 Serve
+name: CI/CD for My Node App
 
 on:
   push:
     branches:
-      - main  # jab main branch par push hoga tab deploy chalega
+      - main
 
 jobs:
   deploy:
@@ -13,14 +13,34 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
-      - name: 📦 Install Dependencies
-        run: yarn install
-
-      - name: 🏗 Build React App
-        run: yarn build
-
-      - name: 🚀 Start/Restart with PM2 Serve
+      - name: 🟢 Update & Install Node.js via NVM
         run: |
-          pm2 delete my-app || true
-          pm2 serve out 3000 --name "my-app" --spa
+          sudo apt update -y
+          sudo apt install curl -y
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install lts
+          node -v
+          npm -v
+
+      - name: 📦 Install Yarn, PM2 & Serve
+        run: |
+          npm install -g yarn pm2 serve
+          yarn -v
+          pm2 -v
+          serve -v
+
+      - name: 📂 Install Dependencies
+        run: |
+          yarn install
+
+      - name: 🏗 Build Project
+        run: |
+          yarn build
+
+      - name: 🚀 Run with PM2
+        run: |
+          pm2 stop all || true
+          pm2 serve out 3000 --name myapp --spa
           pm2 save
